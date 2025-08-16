@@ -145,25 +145,44 @@ void parallel_for(int low, int high, std::function<void(int)> &&lambda, int numT
     t_time+=duration;
 }
 
+#include <iostream>
+
+// Global execution time counter
+extern long long t_time;
+
+// Dummy demonstration function (replace with your actual logic)
+void demonstration(const std::function<void()> &func) {
+    func();
+}
+
+
+int user_main(int argc, char **argv) {
+    // Example: call parallel vector/matrix functions here
+    std::cout << "Running user_main()...\n";
+    return 0;
+}
+
 int main(int argc, char **argv) {
+    int x = 5, y = 1;
 
-    int x=5,y=1;
-    // Declaring a lambda expression that accepts void type parameter
-    auto  lambda1 = [ x, &y](void) {
+    // Lambda capturing x by value, y by reference
+    auto lambda1 = [x, &y]() {
         y = 5;
-        std::cout<<"====== Welcome to Assignment-"<<y<<" of the CSE231(A) ======\n";
-
+        std::cout << "====== Welcome to the Parallel Programming Demo ======\n";
     };
-    // Executing the lambda function
     demonstration(lambda1);
+
+    // Run user program logic
     int rc = user_main(argc, argv);
 
-
-    auto  lambda2 = []() {
-        std::cout<<"====== Hope you enjoyed CSE231(A) ======\n";
+    // Simple farewell lambda
+    auto lambda2 = []() {
+        std::cout << "====== Program Execution Completed ======\n";
     };
     demonstration(lambda2);
-    std :: cout << "\nThe total time for the execution :" << t_time << " millis \n";
+
+    // Print execution time
+    std::cout << "\nTotal execution time: " << t_time << " ms\n";
+
     return rc;
 }
-#define main user_main
